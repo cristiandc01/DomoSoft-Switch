@@ -1,0 +1,1 @@
+{"pin":"false","mode":"0","payloadON":"0","payloadOFF":"1","type":"switch","pulse":"false","in1":"false","payloadIN1":"0","in2":"false","payloadIN2":"","IN2mode":"mono","bootState":"false","led1":"false","ledMode":"normal"}

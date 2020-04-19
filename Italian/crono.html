@@ -1,0 +1,205 @@
+<html><head><title>DomoSoft: Impostazioni</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+        <script>
+        
+        $(document).ready(function(){
+        
+        
+          var ten2 = setTimeout(rel2, 1500);
+                       function rel2() {
+                           $.get('/info/devname', function(data){
+                               $('#p1').text(data);
+                           });
+                       }
+        
+        var ten = setTimeout(rel1, 1500);
+        function rel1() {
+        $.get('/cronoState', function(data){
+        if (data==1) {
+        $('#al1').attr('class','btn bg-success text-white');
+        $('#al2').attr('class','btn bg-primary text-white');
+        
+        }else{
+        $('#al2').attr('class','btn bg-success text-white');
+        $('#al1').attr('class','btn bg-primary text-white');
+        }
+        });
+        }
+        
+
+        
+        });
+
+        function request () { 
+          var dayurl;
+          dayurl = '/cronoDay?day=' + document.getElementById("g").value;
+          document.getElementById("tx1").value = "ottengo..."; 
+         
+          $.get(dayurl, function(data){ 
+            document.getElementById("tx1").value = data; 
+            document.getElementById("savebt").removeAttribute("disabled");
+            document.getElementById("dwbt").removeAttribute("disabled");
+
+          });
+        }
+
+        function save() {
+  var testo;
+  var dayurl;
+  testo=document.getElementById("tx1").value;
+  dayurl = '/setTime?day=' + document.getElementById("g").value + '&testo=' + testo;
+  
+	
+  
+  $.get(dayurl, function(data){ 
+            document.getElementById("tx1").value = "OK"; 
+            document.getElementById("savebt").value="OK";
+            document.getElementById("savebt").setAttribute("disabled", "");
+          });
+}
+
+function download() {
+  var testo;
+  var dayurl;
+  testo=document.getElementById("tx1").value;
+  dayurl = '/crono/download?day=' + document.getElementById("g").value;
+  
+	
+  
+  $(location).attr('href', dayurl);
+}
+
+        </script>
+</head>
+
+                   <body class=''>
+
+  
+  <div id='page-wrap' style="margin-bottom:0" class='jumbotron'>
+
+
+
+  <h2>DomoSoft 4</h2>
+  
+  </div>
+  
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+<a id="p1" class="navbar-brand" href="/">Caricamento</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/settings">Generale</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/network">WiFi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/time">Orologio</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/config">Configurazione</a>
+      </li>
+        
+    </ul>
+	
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/mqttconf">Mqtt</a>
+      </li>
+        
+    </ul>
+
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/crono">Programmi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/security">Sicurezza</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/info">Info</a>
+      </li>
+        
+    </ul>
+  </div>  
+</nav>
+  <br>
+				  
+				  
+				  
+  <div class=' container-fluid'>
+  
+  
+    <div class="clearfix">
+					 <h3>Programmi</h3>
+                   <div class="btn-group float-right "><a href='/crono/on' id='al1' class='btn bg-primary text-white'>ON</a><a href='/crono/off' id='al2' class='btn bg-primary text-white'>OFF</a></div>
+                  <br>
+					   <a>In questa pagina puoi impostare il sistema automatico di accensioni/spegnimenti<br>
+          Per iniziare seleziona il giorno e clicca su carica. 
+          Successivamente modifica la stringa di testo seguendo questa legenda:  </a> <br>
+                   <br>
+                   <h5>Imposta orari</h5>
+                  <br>
+                   <p>Giorno</p>
+                   <select  class="form-control" required id='g'> 
+                   <option value="1">Lunedi</option>
+                   <option value="2">Martedi</option>
+                   <option value="3">Mercoledi</option>
+                   <option value="4">Giovedi</option>
+                   <option value="5">Venerdi</option>
+                   <option value="6">Sabato</option>
+                   <option value="0">Domenica</option>
+                   </select>
+                   <br>
+                   <button onClick='request()' class="btn bg-primary float-right text-white">Carica</button><br><br><br>
+                   <input id='tx1' class="form-control" type="text" height="50">
+                   <br>
+                   <br>
+				   <div class="btn-group float-right">
+                   <button id='savebt' onClick='save()' disabled class="btn bg-primary  text-white">Salva</button>
+                   <button id='dwbt' onClick='download()' disabled class="bg-primary  btn text-white">Scarica</button>
+                   </div>
+                   <br>
+                   <p>Per disattivare una funzione inserisci 'N' al posto del valore numerico. </p>
+                   
+                   <br>
+         
+          <table class="table">
+            <tr class="thead-dark"><th>Codice</th><th>Funzione</th><th>Esempio</th></tr>
+            <tr><th>on1</th><th>Accensione 1</th><th>Accensione alle ore 11:00:  '11'</th></tr>
+            
+            <tr><th>off1</th><th>Spegnimento 1</th><th>Spegnimento alle ore 13:00:  '13'</th></tr>
+            <tr><th>on2</th><th>Accensione 2</th><th>Accensione alle ore 11:00:  '11'</th></tr>
+            
+            <tr><th>off2</th><th>Spegnimento 2</th><th>Spegnimento alle ore 13:00:  '13'</th></tr>
+            <tr><th>on3</th><th>Accensione 3</th><th>Accensione alle ore 11:00:  '11'</th></tr>
+         
+            <tr><th>off3</th><th>Spegnimento 3</th><th>Spegnimento alle ore 13:00:  '13'</th></tr>
+          </table>
+        
+</div>
+</div>

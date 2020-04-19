@@ -1,0 +1,184 @@
+<html><head><title>DomoSoft: Impostazioni</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+        <script>
+        
+        $(document).ready(function(){
+        
+        
+          var ten2 = setTimeout(rel2, 1500);
+                       function rel2() {
+                           $.get('/info/devname', function(data){
+                               $('#p1').text(data);
+                           });
+                       }
+        
+        var ten = setTimeout(rel1, 1500);
+        function rel1() {
+        $.get('/confdata', function(data){
+        
+          document.getElementById("tx1").value = data; 
+            document.getElementById("savebt").removeAttribute("disabled");
+            document.getElementById("dwbt").removeAttribute("disabled");
+      
+        });
+        }
+        
+
+        
+        });
+
+       
+
+        function save() {
+  var testo;
+  var dayurl;
+  testo=document.getElementById("tx1").value;
+  dayurl = '/setconf?testo='  + testo;
+  
+	
+  
+  $.get(dayurl, function(data){ 
+            document.getElementById("tx1").value = "OK"; 
+            document.getElementById("savebt").value="OK";
+            document.getElementById("savebt").setAttribute("disabled", "");
+          });
+}
+
+function download() {
+  var testo;
+  var dayurl;
+  testo=document.getElementById("tx1").value;
+  dayurl = '/config/download';
+  
+	
+  
+  $(location).attr('href', dayurl);
+}
+
+        </script>
+</head>
+
+                   <body class=''>
+
+  
+  <div id='page-wrap' style="margin-bottom:0" class='jumbotron'>
+
+
+
+  <h2>DomoSoft 4</h2>
+  
+  </div>
+  
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+<a id="p1" class="navbar-brand" href="/">Caricamento</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/settings">Generale</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/network">WiFi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/time">Orologio</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/config">Configurazione</a>
+      </li>
+        
+    </ul>
+	
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/mqttconf">Mqtt</a>
+      </li>
+        
+    </ul>
+
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/crono">Programmi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/security">Sicurezza</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/info">Info</a>
+      </li>
+        
+    </ul>
+  </div>  
+</nav>
+  <br>
+				  
+				  
+				  
+  <div class=' container-fluid'>
+  
+  
+    <div class="clearfix">
+					 <h3>Configurazione</h3><br>
+					   <a>DomoSoft 4 è modulabile a piacimento! In questa pagina puoi personalizzare i pin di uscita e entrata del dispositivo modificando i parametri presenti nella casella di testo sottostante.<br>Puoi anche compiarne una già pronta per il tuo dispositivo.  </a> <br>
+                   <br>
+                   
+                
+                   <a></a>
+                  
+                   <br>
+                   
+                   <input id='tx1' class="form-control" type="text" height="50">
+                   <br>
+                   <br>
+				   <div class="btn-group float-right">
+                   <button id='savebt' onClick='save()' disabled class="btn bg-primary  text-white">Salva</button>
+                   <button id='dwbt' onClick='download()' disabled class="bg-primary  btn text-white">Scarica</button>
+                   </div>
+                   <a>Se riscontri difficoltà dai un'occhiata questa tabella</a>  <br>
+                
+                   
+                   <br>
+         
+          <table class="table">
+            <tr class="thead-dark"><th>Codice</th><th>Funzione</th><th>Esempio</th></tr>
+            <tr><th>mode</th><th>Modalità</th><th>mode 0 = PIN OUTPUT <br> mode 1 = SERIAL OUTPUT</th></tr>
+            <tr><th>pin</th><th>Pin di OUTPUT in MODE 0</th><th>Nr pin o false (disattivato)</th></tr>
+            <tr><th>payloadON</th><th>Stringa da inviare per l'accensione</th><th>Default 1</th></tr>
+            <tr><th>payloadOFF</th><th>Stringa da inviare per lo spegnimento</th><th>Default 0</th></tr>
+            <tr><th>type</th><th>Tipo di dispositivo</th><th>Ammessi: switch e light</th></tr>
+            <tr><th>pulse</th><th>Modalità ad impulsi</th><th>true o false</th></tr>
+            <tr><th>in1</th><th>Pin di input 1</th><th>Nr pin o false (disattivato)</th></tr>
+            <tr><th>payloadIN</th><th>Valore ricevuto che scatena l'evento INPUT 1</th><th>1 o 0 (default: 0)</th></tr>
+            <tr><th>in2</th><th>Pin di input 2</th><th>Nr pin o false (disattivato)</th></tr>
+            <tr><th>payloadIN2</th><th>Valore ricevuto che scatena l'evento INPUT 2</th><th>1 o 0 (default: 0)</th></tr>
+            <tr><th>IN2mode</th><th>Comportamento dell'input 2 (bistabile o monostabile)</th><th>mono: monostablie (es pulsante)<br>dual: bistabile (es interruttore)</th></tr>
+            <tr><th>bootState</th><th>Stato all'avvio del dispositivo</th><th>Ammessi: 1, 0 o false (disattivato)</th></tr>
+            <tr><th>led1</th><th>Pin per il LED di stato</th><th>Nr pin o false (disattivato)</th></tr>
+            <tr><th>ledMode</th><th>Modalità del LED</th><th>normal o inverted</th></tr>
+          </table>
+        
+</div>
+</div>

@@ -1,0 +1,160 @@
+
+
+<html><head><title>DomoSoft Dashboard</title>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+
+  <body class=''>
+
+  
+  <div id='page-wrap' style="margin-bottom:0" class='jumbotron'>
+
+
+
+  <h2>DomoSoft 4</h2>
+  
+  </div>
+  
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark ">
+<a id="p1" class="navbar-brand" href="/">Caricamento</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/settings">Generale</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/network">WiFi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/time">Orologio</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/config">Configurazione</a>
+      </li>
+        
+    </ul>
+	
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/mqttconf">Mqtt</a>
+      </li>
+        
+    </ul>
+
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/crono">Programmi</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/security">Sicurezza</a>
+      </li>
+        
+    </ul>
+	<ul class="navbar-nav ">
+      <li class="nav-item">
+        <a class="nav-link" href="/info">Info</a>
+      </li>
+        
+    </ul>
+  </div>  
+</nav>
+  <br>
+  <div class='container-fluid text-center'>
+
+ <div class='col clearfix'>
+
+  <button class='btn bg-primary float-center text-white btn-lg' id='bt1'>Rele 1</button>
+  
+  
+ </div>
+  
+  
+ 
+
+ 
+  </div>
+
+
+    
+	  
+	  
+  
+   
+
+
+    
+	  
+	  
+ 
+
+  
+  
+
+
+
+</body>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+    <script>
+
+  $(document).ready(function(){
+  //bottoni
+
+  $('#bt1').click(function(){
+         $.get('rele1');
+              $('#bt1').attr('class','btn bg-warning text-white btn-lg' );
+              
+     });
+
+     
+
+     
+
+
+     var tid = setTimeout(rel1, 1500);
+       function rel1() {
+           $.get('rele1status', function(data){
+             if (data==1) {
+               $('#bt1').attr('class','btn bg-success text-white btn-lg' );
+                 tid = setTimeout(rel1, 1500);
+             } else if (data==0) {
+               $('#bt1').attr('class','btn bg-danger text-white btn-lg');
+                  tid = setTimeout(rel1, 1500);
+             } else if (data=="disabled") {
+              $('#bt1').attr('class','btn bg-primary text-white disabled btn-lg');
+             }
+           });
+       }
+
+
+      var ten2 = setTimeout(rel2, 1500);
+                       function rel2() {
+                           $.get('/info/devname', function(data){
+                               $('#p1').text(data);
+                           });
+                       }
+     
+
+  });
+  </script></html>
