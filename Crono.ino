@@ -19,7 +19,7 @@ void check_hour() {
       String off2 = json ["off2"];
       String off3 = json ["off3"];
 
-      if (String(timeClient.getHours()) == "0") {} else {
+    
         if (on1 == String(timeClient.getHours())) {
           rele1_tick_on();
 
@@ -33,13 +33,13 @@ void check_hour() {
 
         }
 
-      }
+      
 
 
 
 
 
-      if (off1 == String(timeClient.getHours())) {
+      else if (off1 == String(timeClient.getHours())) {
         rele1_tick_off();
 
       }
@@ -87,7 +87,7 @@ void bootcheck() {
   String off2 = json ["off2"];
   String off3 = json ["off3"];
 
-  if (String(timeClient.getHours()) == "0") {} else {
+ 
     if (on1 == String(timeClient.getHours())) {
       rele1_tick_on();
 
@@ -100,13 +100,13 @@ void bootcheck() {
 
     }
 
-  }
+  
 
 
 
 
 
-  if (off1 == String(timeClient.getHours())) {
+  else if (off1 == String(timeClient.getHours())) {
     rele1_tick_off();
 
   }

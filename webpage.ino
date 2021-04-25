@@ -5,7 +5,17 @@ void homeweb() {
     while (Main.available()) {
       ciaoF += char(Main.read());
     }
+
     Main.close();
+    if (pin2 != 255) {
+      Main = SPIFFS.open("/rele2.page", "r");
+      
+      while (Main.available()) {
+        ciaoF += char(Main.read());
+      }
+
+      Main.close();
+    }
     server.send(200, "text/html", ciaoF);
     ciaoF = "";
   } else {
@@ -15,6 +25,15 @@ void homeweb() {
       ciaoF += char(Main.read());
     }
     Main.close();
+      if (pin2 != 255) {
+      Main = SPIFFS.open("/rele2.page", "r");
+      
+      while (Main.available()) {
+        ciaoF += char(Main.read());
+      }
+
+      Main.close();
+    }
     server.send(200, "text/html", ciaoF);
     ciaoF = "";
   }

@@ -12,18 +12,8 @@ void normalset () {
     MDNS.addService("http", "tcp", 80);
   }
 
-  server.on("/", []() {
-    if (username == "") {
-      homeweb();
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
 
-      homeweb();
-    }
-  });
-
-
+  server.serveStatic("/", SPIFFS, "/home.html");
 
   server.on("/rele1", []() {
     if (username == "") {
@@ -73,25 +63,65 @@ void normalset () {
     } else {
       server.send(200, "text/html", String(rele1S));
     }
-
-
   });
 
 
 
 
-  server.on("/network", []() {
-
+  server.on("/rele2", []() {
     if (username == "") {
-      netweb("");
+      rele2_tick();
+      homeweb();
     } else {
       if (!server.authenticate(username.c_str(), password.c_str()))
         return server.requestAuthentication(BASIC_AUTH, realm);
-
-      netweb("");
+      rele2_tick();
+      homeweb();
     }
-
   });
+
+
+
+
+  server.on("/rele2/on", []() {
+    if (username == "") {
+      rele2_tick_on();
+      homeweb();
+    } else {
+      if (!server.authenticate(username.c_str(), password.c_str()))
+        return server.requestAuthentication(BASIC_AUTH, realm);
+      rele2_tick_on();
+      homeweb();
+    }
+  });
+
+  server.on("/rele2/off", []() {
+    if (username == "") {
+      rele2_tick_off();
+      homeweb();
+    } else {
+      if (!server.authenticate(username.c_str(), password.c_str()))
+        return server.requestAuthentication(BASIC_AUTH, realm);
+      rele2_tick_off();
+      homeweb();
+    }
+  });
+
+
+
+
+  server.on("/rele2status", []() {
+    if (pin2 == 255) {
+      server.send(200, "text/html", "disabled");
+    } else {
+      server.send(200, "text/html", String(rele2S));
+    }
+  });
+
+
+
+
+  server.serveStatic("/network", SPIFFS, "/net.html");
 
 
   server.on("/setwifi", []() {
@@ -133,32 +163,16 @@ void normalset () {
   });
 
 
-  server.on("/settings", []() {
-    if (username == "") {
-      setweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
-      setweb("");
-    }
-  });
 
-  server.on("/config", []() {
-    if (username == "") {
-      confweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
+  server.serveStatic("/settings", SPIFFS, "/set.html");
 
-      confweb("");
-    }
 
-  });
+  server.serveStatic("/config", SPIFFS, "/config.html");
 
   server.on("/confdata", []() {
     if (username == "") {
 
-      String file = "/config/rele1.txt";
+      String file = "/config/config.txt";
       Main = SPIFFS.open(file, "r");
       String ciaoF;
       while (Main.available()) {
@@ -170,7 +184,7 @@ void normalset () {
     } else {
       if (!server.authenticate(username.c_str(), password.c_str()))
         return server.requestAuthentication(BASIC_AUTH, realm);
-      String file = "/config/rele1.txt";
+      String file = "/config/config.txt";
       Main = SPIFFS.open(file, "r");
       String ciaoF;
       while (Main.available()) {
@@ -189,7 +203,7 @@ void normalset () {
       String testo = server.arg("testo");
 
 
-      String file = "/config/rele1.txt" ;
+      String file = "/config/config.txt" ;
       Serial.println(file);
       Main = SPIFFS.open(file, "w");
       Main.print(testo);
@@ -214,7 +228,7 @@ void normalset () {
 
       String testo = server.arg("testo");
 
-      String file = "/config/rele1.txt" ;
+      String file = "/config/config.txt" ;
       Serial.println(file);
       Main = SPIFFS.open(file, "w");
       Main.print(testo);
@@ -240,7 +254,7 @@ void normalset () {
 
     if (username == "") {
 
-      String file = "/config/rele1.txt" ;
+      String file = "/config/config.txt" ;
 
       SD_file_download(file, devname + "_conf");
 
@@ -248,7 +262,7 @@ void normalset () {
       if (!server.authenticate(username.c_str(), password.c_str()))
         return server.requestAuthentication(BASIC_AUTH, realm);
 
-      String file = "/config/rele1.txt" ;
+      String file = "/config/config.txt" ;
 
       SD_file_download(file, devname + "_conf");
 
@@ -256,17 +270,8 @@ void normalset () {
 
   });
 
-  server.on("/time", []() {
-    if (username == "") {
-      timeweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
 
-      timeweb("");
-    }
-
-  });
+  server.serveStatic("/time", SPIFFS, "/time.html");
 
   server.on("/infotime", []() {
     if (username == "") {
@@ -368,27 +373,8 @@ void normalset () {
 
 
 
-  server.on("/crono", []() {
 
-    if (username == "") {
-
-      cronoweb();
-
-
-
-
-
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
-
-
-      cronoweb();
-
-
-    }
-
-  });
+  server.serveStatic("/crono", SPIFFS, "/crono.html");
 
   server.on("/crono/on", []() {
 
@@ -577,17 +563,8 @@ void normalset () {
     }
   });
 
-  server.on("/mqttconf", []() {
 
-    if (username == "") {
-      mqttweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
-      mqttweb("");
-    }
-
-  });
+  server.serveStatic("/mqttconf", SPIFFS, "/mq.html");
 
   server.on("/mqttconf/status", []() {
     if (username == "") {
@@ -972,100 +949,12 @@ void normalset () {
 
   });
 
-  server.on("/security", []() {      //print the security page
-    if (username == "") {
-      secweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(DIGEST_AUTH, realm);
-      secweb("");
-    }
-  });
-
-  server.on("/protect", []() {       //this part set a password to system http
-
-    if (username == "") {
-      username = "";
-      password = "";
-      username = server.arg("username");
-      password = server.arg("password");
-      if (username.length() >= 14) {
-        secweb("<h3>Errore!<br>Username troppo lungo max 14</h3>");
-      } else {
-        if (password.length() >= 18) {
-          secweb("<h3>Errore!<br>Password troppo lunga max 18</h3>");
-        } else {
-          for (int i = 166; i < 180; ++i) {
-            EEPROM.write(i, 0);
-          }
-          for (int i = 0; i < username.length(); ++i)
-          {
-            EEPROM.write(166 + i, username[i]);
-          }
-
-          for (int i = 181; i < 199; ++i) {
-            EEPROM.write(i, 0);
-          }
-          for (int i = 0; i < password.length(); ++i)
-          {
-            EEPROM.write(181 + i, password[i]);
-          }
-
-          EEPROM.commit();
-          secweb("<h3>Salvataggio avvenuto<br></h3>");
-
-        }
-      }
 
 
 
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(DIGEST_AUTH, realm);
-      username = "";
-      password = "";
-      username = server.arg("username");
-      password = server.arg("password");
-      if (username.length() >= 14) {
-        secweb("<h3>Errore!<br>Username troppo lungo max 14</h3>");
-      } else {
-        if (password.length() >= 18) {
-          secweb("<h3>Errore!<br>Password troppo lunga max 18</h3>");
-        } else {
-          for (int i = 166; i < 180; ++i) {
-            EEPROM.write(i, 0);
-          }
-          for (int i = 0; i < username.length(); ++i)
-          {
-            EEPROM.write(166 + i, username[i]);
-          }
 
-          for (int i = 181; i < 199; ++i) {
-            EEPROM.write(i, 0);
-          }
-          for (int i = 0; i < password.length(); ++i)
-          {
-            EEPROM.write(181 + i, password[i]);
-          }
 
-          EEPROM.commit();
-          secweb("<h3>Salvataggio avvenuto<br></h3>");
-
-        }
-      }
-    }
-
-  });
-
-  server.on("/info", []() {
-    if (username == "") {
-      infoweb("");
-    } else {
-      if (!server.authenticate(username.c_str(), password.c_str()))
-        return server.requestAuthentication(BASIC_AUTH, realm);
-      infoweb("");
-    }
-  });
+  server.serveStatic("/info", SPIFFS, "/inf.html");
 
   server.on("/macadd", []() {
     if (username == "") {
@@ -1077,11 +966,9 @@ void normalset () {
     }
   });
 
-  if (username == "") {
-    httpUpdater.setup(&server, "/settings/firmware");
-  } else {
-    httpUpdater.setup(&server, "/settings/firmware", username, password);
-  }
+
+  httpUpdater.setup(&server, "/settings/firmware");
+
   server.begin();
   //Serial.println("HTTP server started");
 

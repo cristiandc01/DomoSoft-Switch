@@ -1,6 +1,6 @@
 void readConf() {
   Serial.println("--- Welcome to SmartReader configuration ---");
-  Main = SPIFFS.open("/config/rele1.txt", "r");
+  Main = SPIFFS.open("/config/config.txt", "r");
   String ciaoF;
   while (Main.available()) {
     ciaoF += char(Main.read());
@@ -10,6 +10,7 @@ void readConf() {
   DynamicJsonBuffer jsonBuffer;
   JsonObject& json = jsonBuffer.parseObject(ciaoF);
   String pin = json ["pin"];
+  String pin02 = json ["pin2"];
   String mode = json ["mode"];
   String typeS = json ["type"];
   String pulseS = json ["pulse"];
@@ -29,6 +30,14 @@ void readConf() {
     pin1 = 255;
   } else {
     pin1 = pin.toInt();
+
+  }
+    if (pin02 == "false") {
+    pin2 = 255;
+    
+  } else {
+    pin2 = pin02.toInt();
+    Serial.println(pin2);
 
   }
   if (LED == "false") {

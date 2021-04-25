@@ -8,6 +8,53 @@
    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
  
+ 
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+     <script>
+ 
+   $(document).ready(function(){
+   //bottoni
+ 
+   $('#bt1').click(function(){
+          $.get('rele1');
+               $('#bt1').attr('class','btn bg-warning text-white btn-lg' );
+               
+      });
+ 
+      
+ 
+      
+ 
+ 
+      var tid = setTimeout(rel1, 1500);
+       function rel1() {
+           $.get('rele1status', function(data){
+             if (data==1) {
+               $('#bt1').attr('class','btn bg-success text-white btn-lg' );
+                 tid = setTimeout(rel1, 1500);
+             } else if (data==0) {
+               $('#bt1').attr('class','btn bg-danger text-white btn-lg');
+                  tid = setTimeout(rel1, 1500);
+             } else if (data=="disabled") {
+              $('#bt1').attr('class','btn bg-primary text-white disabled btn-lg');
+             }
+           });
+       }
+ 
+ 
+       var ten2 = setTimeout(rel2, 1500);
+                        function rel2() {
+                            $.get('/info/devname', function(data){
+                                $('#p1').text(data);
+                            });
+                        }
+      
+ 
+   });
+   </script>
+ 
+ 
+ 
  </head>
  
  
@@ -88,74 +135,4 @@
    <button class='btn bg-primary float-center text-white btn-lg' id='bt1'>Rele 1</button>
    
    
-  </div>
-   
-   
   
- 
-  
-   </div>
- 
- 
-     
-     
-     
-   
-    
- 
- 
-     
-     
-     
-  
- 
-   
-   
- 
- 
- 
- </body>
-   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
-     <script>
- 
-   $(document).ready(function(){
-   //bottoni
- 
-   $('#bt1').click(function(){
-          $.get('rele1');
-               $('#bt1').attr('class','btn bg-warning text-white btn-lg' );
-               
-      });
- 
-      
- 
-      
- 
- 
-      var tid = setTimeout(rel1, 1500);
-       function rel1() {
-           $.get('rele1status', function(data){
-             if (data==1) {
-               $('#bt1').attr('class','btn bg-success text-white btn-lg' );
-                 tid = setTimeout(rel1, 1500);
-             } else if (data==0) {
-               $('#bt1').attr('class','btn bg-danger text-white btn-lg');
-                  tid = setTimeout(rel1, 1500);
-             } else if (data=="disabled") {
-              $('#bt1').attr('class','btn bg-primary text-white disabled btn-lg');
-             }
-           });
-       }
- 
- 
-       var ten2 = setTimeout(rel2, 1500);
-                        function rel2() {
-                            $.get('/info/devname', function(data){
-                                $('#p1').text(data);
-                            });
-                        }
-      
- 
-   });
-   </script></html>
- 

@@ -1,5 +1,6 @@
 void bootConfig() {
   wifi_ok = 1;
+  WiFi.mode(WIFI_STA);
   /*  Serial.println("");
     Serial.println("WiFi connected");
     Serial.print("Local IP: ");
@@ -31,23 +32,23 @@ void bootConfig() {
   Main.close();
   devname2 =  devname;
   WiFi.hostname(devname2);
-/* SINRIC VERRA DISATTIVATO
-  if (sinricOK) {
-    Main = SPIFFS.open("/cloud/api", "r");
-    while (Main.available()) {
-      MyApiKey += char(Main.read());
+  /* SINRIC VERRA DISATTIVATO
+    if (sinricOK) {
+      Main = SPIFFS.open("/cloud/api", "r");
+      while (Main.available()) {
+        MyApiKey += char(Main.read());
+      }
+      Main.close();
+      delay(200);
+      deviceID = "";
+      Main = SPIFFS.open("/cloud/device_id", "r");
+      while (Main.available()) {
+        deviceID += char(Main.read());
+      }
+      Main.close();
+      connectSinric();
     }
-    Main.close();
-    delay(200);
-    deviceID = "";
-    Main = SPIFFS.open("/cloud/device_id", "r");
-    while (Main.available()) {
-      deviceID += char(Main.read());
-    }
-    Main.close();
-    connectSinric();
-  }
-*/
+  */
   if (mqtt_conf) {
 
     discovered = EEPROM.read(201);
@@ -61,11 +62,14 @@ void bootConfig() {
     Main.close();
 
     rele1_control_topic = "relay/rele1/control_" + devname;
-
-
-
     rele1_status_topic = "relay/rele1/status_" + devname;
 
+    if (pin2 != 255) {
+      rele2_control_topic = "relay/rele2/control_" + devname;
+      rele2_status_topic = "relay/rele2/status_" + devname;
+    }
+
+    wil_topic         = "relay/avaliable_" + devname;
 
     mqtt_server = "";
     for (int i = 108; i < 123; ++i)

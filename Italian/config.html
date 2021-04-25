@@ -157,7 +157,7 @@ function download() {
                    <button id='savebt' onClick='save()' disabled class="btn bg-primary  text-white">Salva</button>
                    <button id='dwbt' onClick='download()' disabled class="bg-primary  btn text-white">Scarica</button>
                    </div>
-                   <a>Se riscontri difficoltà dai un'occhiata questa tabella</a>  <br>
+                   <a>Se riscontri difficoltà dai un'occhiata a questa tabella</a>  <br>
                 
                    
                    <br>
@@ -166,9 +166,11 @@ function download() {
             <tr class="thead-dark"><th>Codice</th><th>Funzione</th><th>Esempio</th></tr>
             <tr><th>mode</th><th>Modalità</th><th>mode 0 = PIN OUTPUT <br> mode 1 = SERIAL OUTPUT</th></tr>
             <tr><th>pin</th><th>Pin di OUTPUT in MODE 0</th><th>Nr pin o false (disattivato)</th></tr>
+			 <tr><th>pin2</th><th>Pin di OUTPUT 2 in MODE 0</th><th>Nr pin o false (disattivato)</th></tr>
+			
             <tr><th>payloadON</th><th>Stringa da inviare per l'accensione</th><th>Default 1</th></tr>
             <tr><th>payloadOFF</th><th>Stringa da inviare per lo spegnimento</th><th>Default 0</th></tr>
-            <tr><th>type</th><th>Tipo di dispositivo</th><th>Ammessi: switch e light</th></tr>
+            <tr><th>type</th><th>Tipo di dispositivo</th><th>Ammessi: switch, light e lock</th></tr>
             <tr><th>pulse</th><th>Modalità ad impulsi</th><th>true o false</th></tr>
             <tr><th>in1</th><th>Pin di input 1</th><th>Nr pin o false (disattivato)</th></tr>
             <tr><th>payloadIN</th><th>Valore ricevuto che scatena l'evento INPUT 1</th><th>1 o 0 (default: 0)</th></tr>
